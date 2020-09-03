@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="stylesheet" href="main.css">
+    <meta charset="UTF-8">
+    <title>Simple Insurance API (SIAPI)</title>
+                                                         </head>
+<body>
+<div class="container">
+    <h1>Simple Insurance API (SIAPI)</h1>
+    <p class="sw-info">
+        
+        Version: <span class="sw-info-version">v1</span>
+    </p>
+    <p><h1 id="general">General</h1>
+    <p>Esta documentación muestra como se deben usar las APIs dadas por SIAPI</p>
+    <h2 id="versionado">Versionado</h2>
+    <p>En esta primera etapa sólo habrá una versión disponible. La misma se identificará
+    como <b>v1</b>.</p>
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th>Versión</th>
+    <th>Link</th>
+    <th>URL base</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>v1(actual)</td>
+    <td><a href="http://tecso.pages.tecso.com.ar/simple-insurance-api/">Documentación</a></td>
+    <td><a href="https://siapi.net.tecso.coop/v1">https://siapi.net.tecso.coop/v1</a></td>
+    </tr>
+    </tbody>
+    </table>
+    <h2 id="errores">Errores</h2>
+    <p>La API usa los siguientes HTTP Status Codes:</p>
+    <table class="table table-bordered">
+    <thead>
+    <tr>
+    <th>HTTP Status Code</th>
+    <th>Descripción</th>
+    <th>Nota</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>200</td>
+    <td>Ok</td>
+    <td></td>
+    </tr>
+    <tr>
+    <td>202</td>
+    <td>Solicitud recibida</td>
+    <td>En proceso (para servicios asincrónicos)</td>
+    </tr>
+    <tr>
+    <td>400</td>
+    <td>Error de datos</td>
+    <td>Validación sobre el body o query string</td>
+    </tr>
+    <tr>
+    <td>401</td>
+    <td>No autorizado</td>
+    <td>Credenciales inválidas</td>
+    </tr>
+    <tr>
+    <td>403</td>
+    <td>Acceso prohibido</td>
+    <td>No posee permisos</td>
+    </tr>
+    <tr>
+    <td>404</td>
+    <td>Recurso no encontrado</td>
+    <td>Incluye errores de validación de path params</td>
+    </tr>
+    <tr>
+    <td>500</td>
+    <td>Error en el servidor</td>
+    <td>Error interno del servidor o del core de la aseguradora</td>
+    </tr>
+    </tbody>
+    </table>
+    <p>La estructura de los errores será de la siguiente manera:</p>
+    <pre><code>{<br>  <span class="hljs-attr">"errores"</span>: [<br>    {<br>      <span class="hljs-attr">"codigo"</span>: <span class="hljs-string">"PAGINA_NO_ENCONTRADA"</span>,<br>      <span class="hljs-attr">"mensaje"</span>: <span class="hljs-string">"La URL que usted busca es inexistente"</span><br>    }<br>  ],<br>  <span class="hljs-attr">"httpStatusCode"</span>: <span class="hljs-number">404</span><br>}</code></pre><h1 id="autentificación">Autentificación</h1>
+    <p>En esta primera etapa no será necesario loguearse para el uso de estas APIs.</p>
+    </p>
+    
+    
+    <div id="sw-schemes" class="sw-default-value">
+        <span class="sw-default-value-header">Schemes:</span>
+        
+    </div>
+    
+        <h2 id="swagger--summary-no-tags">Summary</h2>
+        <table class="table table-bordered table-condensed swagger--summary">
+            <thead>
+            <tr>
+                <th>Path</th>
+                <th>Operation</th>
+                <th>Description</th>
+            </tr>
+            </thead>
+            <tbody>
+                    <tr>
+                            <td class="swagger--summary-path" rowspan="1">
+                                <a href="#path--objetos">/objetos</a>
+                            </td>
+                        <td>
+                            <a href="#operation--objetos-get">GET</a>
+                        </td>
+                        <td>
+                            <p>Objetos asegurables</p>
+        
+                        </td>
+                    </tr>
+                    <tr>
+                            <td class="swagger--summary-path" rowspan="1">
+                                <a href="#path--objetos--Objeto--indicios">/objetos/{Objeto}/indicios</a>
+                            </td>
+                        <td>
+                            <a href="#operation--objetos--Objeto--indicios-get">GET</a>
+                        </td>
+                        <td>
+                            <p>Indicios asegurables</p>
+        
+                        </td>
+                    </tr>
+                    <tr>
+                            <td class="swagger--summary-path" rowspan="1">
+                                <a href="#path--objetos--Objeto--indicios--Indicio--formulario">/objetos/{Objeto}/indicios/{Indicio}/formulario</a>
+                            </td>
+                        <td>
+                            <a href="#operation--objetos--Objeto--indicios--Indicio--formulario-get">GET</a>
+                        </td>
+                        <td>
+                            <p>Formulario completo</p>
+        
+                        </td>
+                    </tr>
+                    <tr>
+                            <td class="swagger--summary-path" rowspan="1">
+                                <a href="#path--objetos--Objeto--indicios--Indicio--formulario-proxima-pregunta">/objetos/{Objeto}/indicios/{Indicio}/formulario/proxima-pregunta</a>
+                            </td>
+                        <td>
+                            <a href="#operation--objetos--Objeto--indicios--Indicio--formulario-proxima-pregunta-post">POST</a>
+                        </td>
+                        <td>
+                            <p>Formulario interactivo</p>
+        
+                        </td>
+                    </tr>
+            </tbody>
+        </table>
+    
+    
+    
+    <h2>Paths</h2>
+    
+        
+        <span id="path--objetos"></span>
+            <div id="operation--objetos-get" class="swagger--panel-operation-get panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">Objetos asegurables</div>
+                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/objetos</strong></h3>
+                        Tags:
+                            <a href="#tag-Cotizaci-n">Cotización</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        <p>Los objetos representan la cosa el bien que se está buscando 
+            asegurar. En el mundo de los seguros también se lo suele llamar 
+            “bien asegurable”.</p>
+                    </section>
+            
+                    
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Retorna el listado de objetos.</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-500">
+                                        500 Internal Server Error
+                                    
+                                    </dt>
+                                    <dd class="sw-response-500">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Error interno del servidor</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--objetos--Objeto--indicios"></span>
+            <div id="operation--objetos--Objeto--indicios-get" class="swagger--panel-operation-get panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">Indicios asegurables</div>
+                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/objetos/{Objeto}/indicios</strong></h3>
+                        Tags:
+                            <a href="#tag-Cotizaci-n">Cotización</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        <p>Los indicios representan eventos que puede sufrir un objeto y 
+            para cuya ocurrencia se puede contratar un seguro.</p>
+                    </section>
+            
+                    
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                Objeto
+                                            </td>
+                                            <td><p>Código del objeto</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Retorna la lista de indicios asociados a un objeto determinado.</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-404">
+                                        404 Not Found
+                                    
+                                    </dt>
+                                    <dd class="sw-response-404">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>El/los Path Params son inválidos</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-500">
+                                        500 Internal Server Error
+                                    
+                                    </dt>
+                                    <dd class="sw-response-500">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Error interno del servidor</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--objetos--Objeto--indicios--Indicio--formulario"></span>
+            <div id="operation--objetos--Objeto--indicios--Indicio--formulario-get" class="swagger--panel-operation-get panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">Formulario completo</div>
+                    <h3 class="panel-title"><span class="operation-name">GET</span> <strong>/objetos/{Objeto}/indicios/{Indicio}/formulario</strong></h3>
+                        Tags:
+                            <a href="#tag-Cotizaci-n">Cotización</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        <p>Los formularios te permitirán conocer para cada combinación de 
+            objeto e indicio la información que necesitas recopilar para luego 
+            poder realizar una cotización.</p>
+                    </section>
+            
+                    
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                Objeto
+                                            </td>
+                                            <td><p>Código del objeto</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Indicio
+                                            </td>
+                                            <td><p>Código del indicio</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Retorna el listado completo de preguntas y alertas para un objeto 
+                                            e indicio dado, incluyendo la información de relación entre preguntas 
+                                            y alertas que se recomienda mostrar al usuario.</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-404">
+                                        404 Not Found
+                                    
+                                    </dt>
+                                    <dd class="sw-response-404">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>El/los Path Params son inválidos</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-500">
+                                        500 Internal Server Error
+                                    
+                                    </dt>
+                                    <dd class="sw-response-500">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Error interno del servidor</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                </div>
+            </div>
+        
+        <span id="path--objetos--Objeto--indicios--Indicio--formulario-proxima-pregunta"></span>
+            <div id="operation--objetos--Objeto--indicios--Indicio--formulario-proxima-pregunta-post" class="swagger--panel-operation-post panel">
+                <div class="panel-heading">
+                    <div class="operation-summary">Formulario interactivo</div>
+                    <h3 class="panel-title"><span class="operation-name">POST</span> <strong>/objetos/{Objeto}/indicios/{Indicio}/formulario/proxima-pregunta</strong></h3>
+                        Tags:
+                            <a href="#tag-Cotizaci-n">Cotización</a>
+                </div>
+                <div class="panel-body">
+                    <section class="sw-operation-description">
+                        <p>Retorna un listado de preguntas y alertas filtrado 
+            en función de las respuestas previas indicadas.
+            </p>
+            <p>
+            Si se lo invoca con un body request vacío, generará un nuevo consultaId y lo retornará, en
+            conjunto con las preguntas iniciales a hacer.
+            </p>
+                    </section>
+            
+                    
+                        <section class="sw-request-params">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th class="sw-param-name"></th>
+                                    <th class="sw-param-description"></th>
+                                    <th class="sw-param-type"></th>
+                                    <th class="sw-param-data-type"></th>
+                                    <th class="sw-param-annotation"></th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                        <tr>
+                                            <td>
+                                                Objeto
+                                            </td>
+                                            <td><p>Código del objeto</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                Indicio
+                                            </td>
+                                            <td><p>Código del indicio</p>
+                                        </td>
+                                            <td>path</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                                    <span class="json-property-required"></span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                multiple
+                                            </td>
+                                            <td><p>Cantidad de preguntas</p>
+                                        </td>
+                                            <td>query</td>
+                                            <td>
+                                        <span class="json-property-type">object</span>
+                                        <span class="json-property-range" title="Value limits"></span>
+                                        
+                                            </td>
+                                            <td>
+                                            </td>
+                                        </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    
+                        <section class="sw-responses">
+                    
+                            <dl>
+                                    <dt class="sw-response-200">
+                                        200 OK
+                                    
+                                    </dt>
+                                    <dd class="sw-response-200">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Retorna un listado de preguntas y alertas filtrado según las
+                                            respuestas previas. Una lista vacía indica que ya no quedan
+                                            preguntas por realizar.</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-400">
+                                        400 Bad Request
+                                    
+                                    </dt>
+                                    <dd class="sw-response-400">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>El Body Request es inválido</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-404">
+                                        404 Not Found
+                                    
+                                    </dt>
+                                    <dd class="sw-response-404">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>El/los Path Params son inválidos</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                                    <dt class="sw-response-500">
+                                        500 Internal Server Error
+                                    
+                                    </dt>
+                                    <dd class="sw-response-500">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <p>Error interno del servidor</p>
+                                            
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                
+                                                <div class="col-md-6 sw-response-model">
+                                            </div>
+                                            
+                                            </div>                </dd>
+                            </dl>
+                        </section>
+                </div>
+            </div>
+    
+     
+    
+                       
+    
+</div>
+
+</body>
+</html>
